@@ -1,0 +1,45 @@
+targets:
+  - name: inadimplencia_pf_total
+    source: bcb
+    code: 21084
+    frequency: monthly
+    description: "Inadimplência PF - carteira total"
+
+features:
+  - name: inadimplencia_carteira_total
+    source: bcb
+    code: 21082
+    frequency: monthly
+    description: "Inadimplência - carteira total"
+
+  - name: selic_acumulada_mes
+    source: bcb
+    code: 4390
+    frequency: monthly
+    description: "Selic acumulada no mês"
+
+  - name: ibc_br_dessaz
+    source: bcb
+    code: 24364
+    frequency: monthly
+    description: "IBC-Br dessazonalizado"
+
+  - name: cambio_ptax_venda
+    source: bcb
+    code: 1
+    frequency: daily
+    description: "Câmbio USD/BRL PTAX venda"
+
+  - name: taxa_desocupacao
+    source: ibge
+    table: 6381
+    variable: 4099
+    frequency: quarterly
+    description: "Taxa de desocupação - PNAD Contínua"
+
+  - name: rendimento_medio_real
+    source: ibge
+    table: 6390
+    variable: 5933
+    frequency: quarterly
+    description: "Rendimento médio real habitual - PNAD Contínua"
