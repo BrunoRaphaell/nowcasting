@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+
+# Virtual environment
+.venv/
+
+# Claude
+.claude/
+
+# Generated / derived data
+data/processed/*.parquet
+
+# Generated results (keep .gitkeep to track dir structure)
+results/*.csv
+results/*.png
+results/*.json
+
+# OS
+.DS_Store
