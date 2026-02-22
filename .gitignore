@@ -10,13 +10,9 @@ __pycache__/
 # Claude
 .claude/
 
-# Generated / derived data
-data/processed/*.parquet
-
-# Generated results (keep .gitkeep to track dir structure)
-results/*.csv
-results/*.png
-results/*.json
-
 # OS
 .DS_Store
+
+CLAUDE.md
+
+atividade/nowcasting_projeto.md
