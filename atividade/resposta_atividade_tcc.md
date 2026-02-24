@@ -15,6 +15,8 @@ Desenvolver um pipeline reprodutível de *nowcasting* da inadimplência de pesso
 
 ## 3. Objetivos Específicos
 
+
+
 1. **Ingestão automatizada de dados:** construir módulo que coleta séries temporais das APIs do BCB/SGS e do IBGE/SIDRA, armazenando-as em formato Parquet. As fontes de dados que serão utilizadas são:
 
    **BCB/SGS** (Banco Central do Brasil / Sistema Gerenciador de Séries Temporais):

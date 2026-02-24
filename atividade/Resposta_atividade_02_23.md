@@ -3,6 +3,11 @@
 **Curso de Extensão em Data Science – ITA**
 **Prof. Dr. Johnny Marques**
 
+**Alunos:**
+
+* Bruno Raphaell Alves de Matos
+* Matheus Henrique de Oliveira Medeiros
+
 ---
 
 ## 1. Questão de Pesquisa
@@ -14,6 +19,8 @@ Em que medida variáveis macroeconômicas brasileiras, como taxa Selic, índice 
 Desenvolver e avaliar um pipeline reprodutível de nowcasting da inadimplência de pessoas físicas no Brasil, integrando dados públicos do Banco Central do Brasil e do IBGE, e quantificar o ganho de desempenho preditivo obtido com a incorporação de variáveis macroeconômicas defasadas em relação a modelos univariados.
 
 ## 3. Objetivos Específicos
+
+Os seguintes objetivos específicos são buscados para o atingimento do objetivo geral:
 
 * Levantar e selecionar séries temporais públicas relevantes nas bases do BCB/SGS e do IBGE/SIDRA;
 * Coletar automaticamente as séries via API, armazenando os dados brutos e tratados em formatos reprodutíveis;
