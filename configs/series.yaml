@@ -1,4 +1,5 @@
 targets:
+# https://dadosabertos.bcb.gov.br/dataset/21084-inadimplencia-da-carteira-de-credito---pessoas-fisicas---total
   - name: inadimplencia_pf_total
     source: bcb
     code: 21084
@@ -6,40 +7,79 @@ targets:
     description: "Inadimplência PF - carteira total"
 
 features:
+# https://dadosabertos.bcb.gov.br/dataset/21082-inadimplencia-da-carteira-de-credito---total
   - name: inadimplencia_carteira_total
     source: bcb
     code: 21082
     frequency: monthly
     description: "Inadimplência - carteira total"
 
+# https://dadosabertos.bcb.gov.br/dataset/4390-taxa-de-juros---selic-acumulada-no-mes
   - name: selic_acumulada_mes
     source: bcb
     code: 4390
     frequency: monthly
     description: "Selic acumulada no mês"
 
+# https://dadosabertos.bcb.gov.br/dataset/24364-indice-de-atividade-economica-do-banco-central-ibc-br---com-ajuste-sazonal
   - name: ibc_br_dessaz
     source: bcb
     code: 24364
     frequency: monthly
     description: "IBC-Br dessazonalizado"
 
+# https://dadosabertos.bcb.gov.br/dataset/1-taxa-de-cambio---livre---dolar-americano-venda---diario
   - name: cambio_ptax_venda
     source: bcb
     code: 1
     frequency: daily
     description: "Câmbio USD/BRL PTAX venda"
+ 
+  - name: ipca_variacao_mensal
+    source: bcb
+    code: 433                 
+    frequency: monthly
+    description: "IPCA – índice de preços ao consumidor amplo – variação mensal (%)"
 
+# https://dadosabertos.bcb.gov.br/dataset/20716-taxa-media-de-juros-das-operacoes-de-credito---pessoas-fisicas---total
+  - name: taxa_juros_pf_total
+    source: bcb
+    code: 20716
+    frequency: monthly
+    description: "Taxa média de juros das operações de crédito - pessoas físicas - total"
+
+# https://dadosabertos.bcb.gov.br/dataset/20539-saldo-da-carteira-de-credito---total
+  - name: saldo_carteira_credito_total
+    source: bcb
+    code: 20539
+    frequency: monthly
+    description: "Saldo da carteira de crédito - total"
+
+# https://sidra.ibge.gov.br/tabela/6381
   - name: taxa_desocupacao
     source: ibge
     table: 6381
     variable: 4099
-    frequency: quarterly
+    frequency: rolling_quarter_monthly
     description: "Taxa de desocupação - PNAD Contínua"
+    note: "PNAD Contínua divulgada por trimestre móvel; mês de referência = mês de encerramento"
 
+# https://sidra.ibge.gov.br/tabela/6390 
   - name: rendimento_medio_real
     source: ibge
     table: 6390
     variable: 5933
-    frequency: quarterly
+    frequency: rolling_quarter_monthly
     description: "Rendimento médio real habitual - PNAD Contínua"
+    note: "PNAD Contínua divulgada por trimestre móvel; mês de referência = mês de encerramento"
+
+# https://sidra.ibge.gov.br/tabela/8880
+  - name: pmc_volume_vendas_dessazonalizado
+    source: ibge
+    table: 8880
+    variable: 7170
+    frequency: monthly
+    api: "https://apisidra.ibge.gov.br/values/t/8880/n1/all/v/7170/p/all/c11046/56734/d/v7170%205"
+    description: "PMC – volume de vendas dessazonalizado (2022=100), Brasil"
+
+# para consultas https://sidra.ibge.gov.br/pesquisa/pnadct/tabelas
