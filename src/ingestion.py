@@ -7,6 +7,7 @@ import pandas as pd
 import yaml
 from bcb import sgs
 import sidrapy
+import re
 
 logger = logging.getLogger(__name__)
 
@@ -56,51 +57,48 @@ def fetch_bcb_series(
     return df
 
 
-def fetch_ibge_series(
-    table: int, variable: int, name: str
-) -> pd.DataFrame:
-    """Fetch a series from IBGE/SIDRA.
-
-    Returns a DataFrame with DatetimeIndex and a single column named `name`.
-    """
+def fetch_ibge_series(table: int, variable: int, name: str, api: str | None = None) -> pd.DataFrame:
     logger.info("Fetching IBGE series %s (table=%d, var=%d)", name, table, variable)
-    raw = sidrapy.get_table(
-        table_code=str(table),
-        territorial_level="1",
-        ibge_territorial_code="1",
-        variable=str(variable),
-        period="all",
-        header="n",
-        format="list",
+
+    if api:
+        raw_df = pd.read_json(api)
+    else:
+        raw_df = pd.DataFrame(sidrapy.get_table(
+            table_code=str(table),
+            territorial_level="1",
+            ibge_territorial_code="all",  # você já viu que funciona
+            variable=str(variable),
+            period="all",
+            header="n",
+            format="list",
+        ))
+
+    # remove linha de cabeçalho/metadata
+    df = raw_df.iloc[1:].copy()
+
+    # acha coluna de período YYYYMM
+    period_col = None
+    for col in df.columns:
+        if df[col].astype(str).str.fullmatch(r"\d{6}").any():
+            period_col = col
+            break
+    if period_col is None:
+        raise ValueError(f"Não encontrei coluna de período YYYYMM. Colunas: {list(df.columns)}")
+
+    out = df[[period_col, "V"]].rename(columns={period_col: "period", "V": name})
+    out[name] = (
+        out[name].astype(str)
+        .str.replace(".", "", regex=False)
+        .str.replace(",", ".", regex=False)
     )
+    out[name] = pd.to_numeric(out[name], errors="coerce")
+    out = out.dropna(subset=[name])
 
-    records = []
-    for row in raw:
-        period = row.get("D2C", "")  # period code like "202301"
-        value = row.get("V", "")
-        if not period or not value or value in ("...", "-", "X"):
-            continue
-        # Skip rows where D2C is the variable code (header artifact)
-        if period == str(variable):
-            continue
-        try:
-            val = float(value)
-        except ValueError:
-            continue
-        records.append({"period": period, name: val})
-
-    if not records:
-        logger.warning("  -> No valid records for %s", name)
-        return pd.DataFrame()
-
-    df = pd.DataFrame(records)
-    # Period codes from PNAD Contínua trimestral móvel are like "202301"
-    # meaning the trimester ending in January 2023. Parse as month.
-    df["date"] = pd.to_datetime(df["period"], format="%Y%m")
-    df = df.set_index("date").drop(columns=["period"]).sort_index()
-    df = df[~df.index.duplicated(keep="last")]
-    logger.info("  -> %d rows fetched", len(df))
-    return df
+    out["date"] = pd.to_datetime(out["period"], format="%Y%m")
+    out = out.set_index("date").drop(columns=["period"]).sort_index()
+    out = out[~out.index.duplicated(keep="last")]
+    logger.info("  -> %d rows fetched", len(out))
+    return out
 
 
 def ingest_all(
@@ -133,6 +131,7 @@ def ingest_all(
                     table=series["table"],
                     variable=series["variable"],
                     name=name,
+                    api=series.get("api"),
                 )
             else:
                 logger.warning("Unknown source '%s' for series '%s', skipping", source, name)
@@ -153,3 +152,4 @@ if __name__ == "__main__":
     import src  # noqa: F401 — trigger logging config
 
     ingest_all()
+    
