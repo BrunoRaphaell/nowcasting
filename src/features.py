@@ -12,14 +12,11 @@ ROOT = Path(__file__).resolve().parent.parent
 PROCESSED_DIR = ROOT / "data" / "processed"
 
 TARGET_COL = "inadimplencia_pf_total"
-FEATURE_COLS = [
-    "inadimplencia_carteira_total",
-    "selic_acumulada_mes",
-    "ibc_br_dessaz",
-    "cambio_ptax_venda",
-    "taxa_desocupacao",
-    "rendimento_medio_real",
-]
+FEATURE_COLS = ['inadimplencia_carteira_total',
+       'selic_acumulada_mes', 'ibc_br_dessaz', 'cambio_ptax_venda',
+       'ipca_variacao_mensal', 'taxa_juros_pf_total',
+       'saldo_carteira_credito_total', 'taxa_desocupacao',
+       'rendimento_medio_real', 'pmc_volume_vendas_dessazonalizado']
 
 # Feature parameters (per interview decisions)
 LAG_PERIODS = [1, 3, 6]
